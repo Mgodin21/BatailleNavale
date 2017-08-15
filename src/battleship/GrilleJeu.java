@@ -63,6 +63,10 @@ public class GrilleJeu extends JPanel implements Observable{
     public void changerTexteBouton(Position position, String texte){
         grilleBoutons[position.getPosY()][changerLettreEnInt(position.getPosX())].setText(texte);
     }
+    
+    public void getTexteBouton(Position position){
+        grilleBoutons[position.getPosY()][changerLettreEnInt(position.getPosX())].getText();
+    }
 
     /**
      * changer un char en son numéro de colonne correspondant
@@ -163,17 +167,58 @@ public class GrilleJeu extends JPanel implements Observable{
                             if(debut == null)
                                 debut = posDernierClic;
                             else{
-                                if((debut.getPosX() != posDernierClic.getPosX() 
-                                        && debut.getPosY() == posDernierClic.getPosY())
-                                        || (debut.getPosY() != posDernierClic.getPosY() 
-                                        && debut.getPosX() == posDernierClic.getPosX())){
-                                    if((Math.abs(changerLettreEnInt(debut.getPosX()) - changerLettreEnInt(posDernierClic.getPosX())) == Navire.LONGUEUR_PORTE_AVION - 1)
-                                            || (Math.abs((debut.getPosY() - posDernierClic.getPosY())) == Navire.LONGUEUR_PORTE_AVION - 1)){
-                                        Partie.getInstance().placerNavireHumain(debut, posDernierClic);
-                                    }
+                                if(Navire.positionsSontValide(debut, posDernierClic, Navire.LONGUEUR_PORTE_AVION)){
+                                        Partie.getInstance().placerNavireHumain(debut, posDernierClic);  
                                 }
                                 debut = null;
-                            }   
+                            }
+                            break;
+                            
+                            case PLACER_CONTRE_T:
+                            if(debut == null)
+                                debut = posDernierClic;
+                            else{
+                                if(Navire.positionsSontValide(debut, posDernierClic, Navire.LONGUEUR_CONTRE_T)){
+                                        Partie.getInstance().placerNavireHumain(debut, posDernierClic);  
+                                }
+                            
+                                debut = null;
+                            }
+                            break;
+                            
+                            case PLACER_CROISEUR:
+                            if(debut == null)
+                                debut = posDernierClic;
+                            else{
+                                if(Navire.positionsSontValide(debut, posDernierClic, Navire.LONGUEUR_CROISEUR)){
+                                        Partie.getInstance().placerNavireHumain(debut, posDernierClic);  
+                                
+                                }
+                                debut = null;
+                            }
+                            break;
+                            
+                            case PLACER_SOUS_MARIN:
+                            if(debut == null)
+                                debut = posDernierClic;
+                            else{
+                                if(Navire.positionsSontValide(debut, posDernierClic, Navire.LONGUEUR_SOUS_MARIN)){
+                                        Partie.getInstance().placerNavireHumain(debut, posDernierClic);  
+                                }
+                                debut = null;
+                            }
+                            break;
+                            
+                            case PLACER_TORPILLEUR:
+                            if(debut == null)
+                                debut = posDernierClic;
+                            else{
+                                if(Navire.positionsSontValide(debut, posDernierClic, Navire.LONGUEUR_TORPILLEUR)){
+                                        Partie.getInstance().placerNavireHumain(debut, posDernierClic);  
+                                }
+                                debut = null;
+                            }
+                            break;
                     }
                 }
             });

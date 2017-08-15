@@ -53,8 +53,8 @@ public class Navire {
 
         //l'écart entre les valeurs x ou y est le bon
         boolean ecartEstValide =
-                Math.abs(posDebut.getPosX() - posFin.getPosX()) == longueurDuNavire
-                || Math.abs(posDebut.getPosY() - posFin.getPosY()) == longueurDuNavire;
+                Math.abs(posDebut.getPosX() - posFin.getPosX()) == longueurDuNavire - 1
+                || Math.abs(posDebut.getPosY() - posFin.getPosY()) == longueurDuNavire - 1;
 
         return (estVertical || estHorizontal) && ecartEstValide;
     }
