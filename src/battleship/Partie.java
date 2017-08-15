@@ -62,24 +62,26 @@ public final class Partie {
     }
 
     public void placerNavireHumain(Position depart, Position fin) {
-        if (depart.getPosX() != fin.getPosX() && depart.getPosY() == fin.getPosY()) {
-            if (depart.getPosX() < fin.getPosX()) {
-                for (int i = GrilleJeu.changerLettreEnInt(depart.getPosX()); i <= GrilleJeu.changerLettreEnInt(fin.getPosX()); i++) {
-                    joueur.getGrille().changerTexteBouton(new Position(GrilleJeu.changerIntEnLettre(i), depart.getPosY()), NAVIRE);
+        if (peutPlacerNavire(depart, fin)) {
+            if (depart.getPosX() != fin.getPosX() && depart.getPosY() == fin.getPosY()) {
+                if (depart.getPosX() < fin.getPosX()) {
+                    for (int i = GrilleJeu.changerLettreEnInt(depart.getPosX()); i <= GrilleJeu.changerLettreEnInt(fin.getPosX()); i++) {
+                        joueur.getGrille().changerTexteBouton(new Position(GrilleJeu.changerIntEnLettre(i), depart.getPosY()), NAVIRE);
+                    }
+                } else {
+                    for (int i = GrilleJeu.changerLettreEnInt(depart.getPosX()); i >= GrilleJeu.changerLettreEnInt(fin.getPosX()); i--) {
+                        joueur.getGrille().changerTexteBouton(new Position(GrilleJeu.changerIntEnLettre(i), depart.getPosY()), NAVIRE);
+                    }
                 }
-            } else {
-                for (int i = GrilleJeu.changerLettreEnInt(depart.getPosX()); i >= GrilleJeu.changerLettreEnInt(fin.getPosX()); i--) {
-                    joueur.getGrille().changerTexteBouton(new Position(GrilleJeu.changerIntEnLettre(i), depart.getPosY()), NAVIRE);
-                }
-            }
-        } else if (depart.getPosY() != fin.getPosY() && depart.getPosX() == fin.getPosX()) {
-            if (depart.getPosY() < fin.getPosY()) {
-                for (int i = depart.getPosY(); i <= fin.getPosY(); i++) {
-                    joueur.getGrille().changerTexteBouton(new Position(depart.getPosX(), i), NAVIRE);
-                }
-            } else {
-                for (int i = depart.getPosY(); i >= fin.getPosY(); i--) {
-                    joueur.getGrille().changerTexteBouton(new Position(depart.getPosX(), i), NAVIRE);
+            } else if (depart.getPosY() != fin.getPosY() && depart.getPosX() == fin.getPosX()) {
+                if (depart.getPosY() < fin.getPosY()) {
+                    for (int i = depart.getPosY(); i <= fin.getPosY(); i++) {
+                        joueur.getGrille().changerTexteBouton(new Position(depart.getPosX(), i), NAVIRE);
+                    }
+                } else {
+                    for (int i = depart.getPosY(); i >= fin.getPosY(); i--) {
+                        joueur.getGrille().changerTexteBouton(new Position(depart.getPosX(), i), NAVIRE);
+                    }
                 }
             }
         }
@@ -89,23 +91,32 @@ public final class Partie {
         if (depart.getPosX() != fin.getPosX() && depart.getPosY() == fin.getPosY()) {
             if (depart.getPosX() < fin.getPosX()) {
                 for (int i = GrilleJeu.changerLettreEnInt(depart.getPosX()); i <= GrilleJeu.changerLettreEnInt(fin.getPosX()); i++) {
-                    if(joueur.getGrille().getTexteBouton(new Position(GrilleJeu.changerIntEnLettre(i), depart.getPosY())) != "")
+                    if (!joueur.getGrille().getTexteBouton(new Position(GrilleJeu.changerIntEnLettre(i), depart.getPosY())).equals("")) {
                         return false;
+                    }
                 }
             } else {
                 for (int i = GrilleJeu.changerLettreEnInt(depart.getPosX()); i >= GrilleJeu.changerLettreEnInt(fin.getPosX()); i--) {
-                    if(joueur.getGrille().getTexteBouton(new Position(GrilleJeu.changerIntEnLettre(i), depart.getPosY())) != "")
+                    if (!joueur.getGrille().getTexteBouton(new Position(GrilleJeu.changerIntEnLettre(i), depart.getPosY())).equals("")) {
                         return false;
+                    }
                 }
             }
         } else if (depart.getPosY() != fin.getPosY() && depart.getPosX() == fin.getPosX()) {
             if (depart.getPosY() < fin.getPosY()) {
                 for (int i = depart.getPosY(); i <= fin.getPosY(); i++) {
-                    (joueur.getGrille().getTexteBouton(new Position(depart.getPosX(), i));
+                    if (!joueur.getGrille().getTexteBouton(new Position(depart.getPosX(), i)).equals("")) {
+                        return false;
+                    }
                 }
             } else {
                 for (int i = depart.getPosY(); i >= fin.getPosY(); i--) {
-                    joueur.getGrille().getTexteBouton(new Position(depart.getPosX(), i));
+                    if (!joueur.getGrille().getTexteBouton(new Position(depart.getPosX(), i)).equals("")) {
+                        return false;
+                    }
                 }
             }
         }
+        return true;
+    }
+}

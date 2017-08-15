@@ -64,8 +64,8 @@ public class GrilleJeu extends JPanel implements Observable{
         grilleBoutons[position.getPosY()][changerLettreEnInt(position.getPosX())].setText(texte);
     }
     
-    public void getTexteBouton(Position position){
-        grilleBoutons[position.getPosY()][changerLettreEnInt(position.getPosX())].getText();
+    public String getTexteBouton(Position position){
+        return grilleBoutons[position.getPosY()][changerLettreEnInt(position.getPosX())].getText();
     }
 
     /**
