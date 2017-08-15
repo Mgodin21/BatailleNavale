@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * GUI du jeu de bataille navale
@@ -11,9 +14,11 @@ import java.awt.event.ActionListener;
  * @author Maxime Lacombe
  * @version 06-08-2017
  */
-public class Gui {
+public class Gui implements Observer{
 
     public static JButton[] boutonsGauche = new JButton[8];
+    
+    
 
     //position et taille de la fenêtre principale
     private final Rectangle TAILLE_FENETRE = new Rectangle(200, 200, 1000, 800);
@@ -29,7 +34,7 @@ public class Gui {
     private final int LARGEUR_PANNEAU_GAUCHE = 200;
     private Dimension dimensionPanneauGauche = new Dimension(LARGEUR_PANNEAU_GAUCHE, 0);
 
-    private Partie partie = new Partie();
+    private Partie partie = Partie.getInstance();
     
     private PanelDeLabels derniersCoupsHumain;
     private PanelDeLabels derniersCoupsAI;
@@ -148,7 +153,7 @@ public class Gui {
         boutonPlacerPA.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("placer un Porte-avion");
+                partie.setEtape(Etape.PLACER_PORTE_AVION);
                 
             }
         });
@@ -158,7 +163,7 @@ public class Gui {
         boutonPlacerCroiseur.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("placer un Croiseur");
+                partie.setEtape(Etape.PLACER_CROISEUR);
             }
         });
 
@@ -167,7 +172,7 @@ public class Gui {
         boutonPlacerContreT.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("placer un Contre T");
+                partie.setEtape(Etape.PLACER_CONTRE_T);
             }
         });
 
@@ -176,7 +181,7 @@ public class Gui {
         boutonPlacerSousMarin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("placer un Sous-marin");
+                partie.setEtape(Etape.PLACER_SOUS_MARIN);
             }
         });
 
@@ -185,7 +190,7 @@ public class Gui {
         boutonPlacerTorpilleur.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("placer un Torpilleur");
+                partie.setEtape(Etape.PLACER_TORPILLEUR);
             }
         });
 
@@ -220,5 +225,10 @@ public class Gui {
         for (int i=0;i<boutonsGauche.length;i++){
             paneGauche.add(boutonsGauche[i]);
         }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

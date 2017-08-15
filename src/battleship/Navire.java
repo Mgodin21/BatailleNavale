@@ -6,6 +6,11 @@ import java.util.LinkedList;
  * Created by Max on 2017-08-05.
  */
 public class Navire {
+    public static final int LONGUEUR_PORTE_AVION = 5;
+    public static final int LONGUEUR_CROISEUR = 4;
+    public static final int LONGUEUR_CONTRE_T = 3;
+    public static final int LONGUEUR_SOUS_MARIN = 2;
+    public static final int LONGUEUR_TORPILLEUR = 1;
     private LinkedList<Position> positions;
     private int longueur;
     private String nom;

@@ -6,17 +6,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Observer;
+import javafx.beans.InvalidationListener;
 
 /**
  * Panneau qui contient une grille de jeu (grille de boutons)
  */
-public class GrilleJeu extends JPanel{
+public class GrilleJeu extends JPanel implements Observable{
 
     //position du dernier clic sur la grille
     public static Position posDernierClic;
 
+    private ArrayList<Observer> observateurs;
+    
     //un bouton a été cliqué, true lors d'un clic, false quand position reçue
     public static boolean boutonEstClique;
+    
+    public Position debut;
 
     private BoutonCustom[][] grilleBoutons;
 
@@ -120,6 +127,16 @@ public class GrilleJeu extends JPanel{
         }
     }
 
+    @Override
+    public void addListener(InvalidationListener listener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removeListener(InvalidationListener listener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     /**
      * classe qui introduit une position à un JButton
      */
@@ -141,6 +158,23 @@ public class GrilleJeu extends JPanel{
                     //retient la position du bouton cliqué
                     posDernierClic = btn.position;
                     boutonEstClique = true;
+                    switch (Partie.getInstance().getEtape()){
+                        case PLACER_PORTE_AVION:
+                            if(debut == null)
+                                debut = posDernierClic;
+                            else{
+                                if((debut.getPosX() != posDernierClic.getPosX() 
+                                        && debut.getPosY() == posDernierClic.getPosY())
+                                        || (debut.getPosY() != posDernierClic.getPosY() 
+                                        && debut.getPosX() == posDernierClic.getPosX())){
+                                    if((Math.abs(changerLettreEnInt(debut.getPosX()) - changerLettreEnInt(posDernierClic.getPosX())) == Navire.LONGUEUR_PORTE_AVION - 1)
+                                            || (Math.abs((debut.getPosY() - posDernierClic.getPosY())) == Navire.LONGUEUR_PORTE_AVION - 1)){
+                                        Partie.getInstance().placerNavireHumain(debut, posDernierClic);
+                                    }
+                                }
+                                debut = null;
+                            }   
+                    }
                 }
             });
         }
