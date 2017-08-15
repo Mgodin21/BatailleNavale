@@ -1,5 +1,6 @@
 package battleship;
 
+import java.util.ArrayList;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -9,6 +10,7 @@ import java.util.Stack;
 public abstract class AJoueur implements IJoueur{
     private Queue<Position> derniersCoups;
     private Stack<Position> ciblesPotentielles;
+    protected ArrayList<Navire> listeNavires;
     protected GrilleJeu grille;
 
     //constructeur

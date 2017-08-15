@@ -29,31 +29,12 @@ public class Gui {
     private final int LARGEUR_PANNEAU_GAUCHE = 200;
     private Dimension dimensionPanneauGauche = new Dimension(LARGEUR_PANNEAU_GAUCHE, 0);
 
-    //grilles de jeu (Humain en bas, AI en haut)
-    private GrilleJeu grilleHumain = new GrilleJeu(TAILLE_GRILLE);
-    private GrilleJeu grilleAI = new GrilleJeu(TAILLE_GRILLE);
-
+    private Partie partie = new Partie();
+    
     private PanelDeLabels derniersCoupsHumain;
     private PanelDeLabels derniersCoupsAI;
 
     private JLabel infosPartie;
-
-    //accesseurs
-    public GrilleJeu getGrilleHumain() {
-        return grilleHumain;
-    }
-
-    public void setGrilleHumain(GrilleJeu grilleHumain) {
-        this.grilleHumain = grilleHumain;
-    }
-
-    public GrilleJeu getGrilleAI() {
-        return grilleAI;
-    }
-
-    public void setGrilleAI(GrilleJeu grilleAI) {
-        this.grilleAI = grilleAI;
-    }
 
     public PanelDeLabels getDerniersCoupsHumain() {
         return derniersCoupsHumain;
@@ -106,14 +87,14 @@ public class Gui {
         panelHaut.setLayout(new BorderLayout());
         JPanel paneHautGauche = new JPanel();
         panelHaut.add(paneHautGauche, BorderLayout.WEST);
-        panelHaut.add(grilleAI, BorderLayout.CENTER);
+        panelHaut.add(partie.getAi().getGrille(), BorderLayout.CENTER);
 
         //séparation du panneau du bas et création des panneaux des différents
         //sections et ajout au panneau du bas
         panelBas.setLayout(new BorderLayout());
         JPanel paneBasBas = new JPanel();
         JPanel paneBasGauche = new JPanel();
-        panelBas.add(grilleHumain, BorderLayout.CENTER);
+        panelBas.add(partie.getJoueur().getGrille(), BorderLayout.CENTER);
         panelBas.add(paneBasBas, BorderLayout.SOUTH);
 
         //ajout du Label au panneau du haut
@@ -168,6 +149,7 @@ public class Gui {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("placer un Porte-avion");
+                
             }
         });
 

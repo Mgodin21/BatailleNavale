@@ -7,13 +7,19 @@ import java.util.LinkedList;
  */
 public class Navire {
     private LinkedList<Position> positions;
+    private int longueur;
     private String nom;
 
-    public Navire(LinkedList<Position> positions, String nom) {
+    public Navire(LinkedList<Position> positions, String nom, int longueur) {
         this.positions = positions;
         this.nom = nom;
+        this.longueur = longueur;
     }
 
+    public int getLongueur() {
+        return longueur;
+    }
+    
     public LinkedList<Position> getPositions() {
         return this.positions;
     }

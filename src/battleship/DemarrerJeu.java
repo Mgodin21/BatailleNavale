@@ -13,10 +13,6 @@ public class DemarrerJeu {
         //ne pas enlever, laisse le temps au Gui de se creer;
         pause(200);
 
-        //création des joueurs et association avec leur grille
-        JoueurHumain joueurHumain = new JoueurHumain(gui.getGrilleHumain());
-        JoueurArtificiel joueurAI = new JoueurArtificiel(gui.getGrilleAI());
-
     }
 
     /**
