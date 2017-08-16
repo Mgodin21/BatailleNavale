@@ -11,7 +11,7 @@ public class DemarrerJeu {
         Gui gui = new Gui();
 
         //ne pas enlever, laisse le temps au Gui de se creer;
-        pause(200);
+        pause(1000);
 
     }
 

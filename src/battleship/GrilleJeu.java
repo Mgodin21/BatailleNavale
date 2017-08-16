@@ -39,6 +39,7 @@ public class GrilleJeu extends JPanel implements Observable {
          * le désactive. S'il s'agit de la première ligne, change la
          * position en lettre et le désactive.
          */
+        this.observateurs = new ArrayList<Observer>(); 
         this.setLayout(new GridLayout(taille, taille));
 
         this.grilleBoutons = new BoutonCustom[taille][taille];
@@ -131,6 +132,16 @@ public class GrilleJeu extends JPanel implements Observable {
         }
     }
 
+    public void addObserver(Observer ob) {
+        observateurs.add(ob);
+    }
+    
+    public void updateObserver(EUpdate update){
+        for (Observer observateur : observateurs) {
+            observateur.update(null, update);
+        }
+    }
+    
     @Override
     public void addListener(InvalidationListener listener) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -141,6 +152,22 @@ public class GrilleJeu extends JPanel implements Observable {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public void bloquerGrille(){
+            for (JButton[] boutons : grilleBoutons) {
+                for (JButton bouton : boutons) {
+                    bouton.setEnabled(false);
+                }
+            }
+        }
+
+        public void debloquerGrille(){
+           for (JButton[] boutons : grilleBoutons) {
+                for (JButton bouton : boutons) {
+                    bouton.setEnabled(true);
+                }
+            }
+        }
+    
     /**
      * classe qui introduit une position à un JButton
      */
@@ -169,14 +196,17 @@ public class GrilleJeu extends JPanel implements Observable {
                             case PLACER_PORTE_AVION:
 
                                 if (Navire.positionsSontValides(debut, posDernierClic, Navire.LONGUEUR_PORTE_AVION)) {
-                                    Partie.getInstance().placerNavireHumain(debut, posDernierClic, Navire.LONGUEUR_PORTE_AVION);
-                                    debut = null;
+                                    Partie.getInstance().placerNavireHumain(debut, posDernierClic, Navire.LONGUEUR_PORTE_AVION, "Porte-Avion");
+                                    updateObserver(EUpdate.SUCCES);
                                 }
+                                
+                                debut = null;
                                 break;
 
                             case PLACER_CONTRE_T:
                                 if (Navire.positionsSontValides(debut, posDernierClic, Navire.LONGUEUR_CONTRE_T)) {
-                                    Partie.getInstance().placerNavireHumain(debut, posDernierClic, Navire.LONGUEUR_CONTRE_T);
+                                    Partie.getInstance().placerNavireHumain(debut, posDernierClic, Navire.LONGUEUR_CONTRE_T, "Contre-T");
+                                    updateObserver(EUpdate.SUCCES);
                                 }
 
                                 debut = null;
@@ -186,7 +216,8 @@ public class GrilleJeu extends JPanel implements Observable {
                             case PLACER_CROISEUR:
 
                                 if (Navire.positionsSontValides(debut, posDernierClic, Navire.LONGUEUR_CROISEUR)) {
-                                    Partie.getInstance().placerNavireHumain(debut, posDernierClic, Navire.LONGUEUR_CROISEUR);
+                                    Partie.getInstance().placerNavireHumain(debut, posDernierClic, Navire.LONGUEUR_CROISEUR, "Croiseur");
+                                    updateObserver(EUpdate.SUCCES);
 
                                 }
                                 debut = null;
@@ -196,7 +227,8 @@ public class GrilleJeu extends JPanel implements Observable {
                             case PLACER_SOUS_MARIN:
 
                                 if (Navire.positionsSontValides(debut, posDernierClic, Navire.LONGUEUR_SOUS_MARIN)) {
-                                    Partie.getInstance().placerNavireHumain(debut, posDernierClic, Navire.LONGUEUR_SOUS_MARIN);
+                                    Partie.getInstance().placerNavireHumain(debut, posDernierClic, Navire.LONGUEUR_SOUS_MARIN, "Sous-Marin");
+                                    updateObserver(EUpdate.SUCCES);
                                 }
                                 debut = null;
 
@@ -205,11 +237,16 @@ public class GrilleJeu extends JPanel implements Observable {
                             case PLACER_TORPILLEUR:
 
                                 if (Navire.positionsSontValides(debut, posDernierClic, Navire.LONGUEUR_TORPILLEUR)) {
-                                    Partie.getInstance().placerNavireHumain(debut, posDernierClic, Navire.LONGUEUR_TORPILLEUR);
+                                    Partie.getInstance().placerNavireHumain(debut, posDernierClic, Navire.LONGUEUR_TORPILLEUR, "Torpilleur");
+                                    updateObserver(EUpdate.SUCCES);
                                 }
                                 debut = null;
 
                                 break;
+                                
+                            case ATTAQUER:
+                                //Faire le code de l'attaque ici
+                            break;
                         }
                     }
                 }

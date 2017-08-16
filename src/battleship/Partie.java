@@ -15,7 +15,6 @@ import java.util.Observer;
 public final class Partie {
 
     private static final Partie INSTANCE = new Partie();
-    private Observer parent;
     public final String NAVIRE = "+";
     public final String TOUCHE = "X";
     public final String RATE = "O";
@@ -35,7 +34,7 @@ public final class Partie {
     }
 
     public void setParent(Observer ob) {
-        this.parent = ob;
+        joueur.grille.addObserver(ob);
     }
 
     public Etape getEtape() {
@@ -62,10 +61,10 @@ public final class Partie {
         this.ai = ai;
     }
 
-    public void placerNavireHumain(Position depart, Position fin, int longueur) {
+    public void placerNavireHumain(Position depart, Position fin, int longueur, String nom) {
         LinkedList<Position> positions = new LinkedList();
         if (peutPlacerNavire(depart, fin)) {
-            if (depart.getPosX() != fin.getPosX() && depart.getPosY() == fin.getPosY()) {
+            if (depart.getPosX() != fin.getPosX() && depart.getPosY() == fin.getPosY()) { //On vérifie si le bateau est horizontal ou vertical
                 if (depart.getPosX() < fin.getPosX()) {
                     for (int i = GrilleJeu.changerLettreEnInt(depart.getPosX()); i <= GrilleJeu.changerLettreEnInt(fin.getPosX()); i++) {
                         joueur.getGrille().changerTexteBouton(new Position(GrilleJeu.changerIntEnLettre(i), depart.getPosY()), NAVIRE);
@@ -90,6 +89,8 @@ public final class Partie {
                     }
                 }
             }
+            Navire navire = new Navire(positions, longueur, nom);
+            joueur.ajouterNavire(navire);
         }
     }
 

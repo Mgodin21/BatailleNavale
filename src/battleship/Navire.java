@@ -9,8 +9,8 @@ public class Navire {
     public static final int LONGUEUR_PORTE_AVION = 5;
     public static final int LONGUEUR_CROISEUR = 4;
     public static final int LONGUEUR_CONTRE_T = 3;
-    public static final int LONGUEUR_SOUS_MARIN = 2;
-    public static final int LONGUEUR_TORPILLEUR = 1;
+    public static final int LONGUEUR_SOUS_MARIN = 3;
+    public static final int LONGUEUR_TORPILLEUR = 2;
     public static enum Nom{
         PORTE_AVION,
         CROISEUR,
@@ -20,29 +20,13 @@ public class Navire {
     }
     private LinkedList<Position> positions;
     private int longueur;
-    private Nom nom;
+    private String nom;
     
 
-    public Navire(LinkedList<Position> positions, int longueur) {
+    public Navire(LinkedList<Position> positions, int longueur, String nom) {
         this.positions = positions;
         this.longueur = longueur;
-        switch(longueur){
-            case LONGUEUR_PORTE_AVION:
-                this.nom = Nom.PORTE_AVION;
-                break;
-            case LONGUEUR_CROISEUR:
-                this.nom = Nom.CROISEUR;
-                break;
-            case LONGUEUR_CONTRE_T:
-                this.nom = Nom.CONTRE_T;
-                break;
-            case LONGUEUR_SOUS_MARIN:
-                this.nom = Nom.SOUS_MARIN;
-                break;
-            case LONGUEUR_TORPILLEUR:
-                this.nom = Nom.TORPILLEUR;
-                break;
-        }
+        this.nom = nom;
     }
 
     public int getLongueur() {
@@ -61,11 +45,11 @@ public class Navire {
         return this.positions.isEmpty();
     }
 
-    public Nom getNom() {
+    public String getNom() {
         return this.nom;
     }
 
-    public void setNom(Nom nom) {
+    public void setNom(String nom) {
         this.nom = nom;
     }
 

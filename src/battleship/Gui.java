@@ -1,5 +1,6 @@
 package battleship;
 
+import com.sun.jmx.mbeanserver.Util;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,6 +18,7 @@ import java.util.Observer;
 public class Gui implements Observer{
 
     public static JButton[] boutonsGauche = new JButton[8];
+    public static boolean[] boutonsActive = {true,true,true,true,true,true,true,true};
     
     
 
@@ -34,7 +36,7 @@ public class Gui implements Observer{
     private final int LARGEUR_PANNEAU_GAUCHE = 200;
     private Dimension dimensionPanneauGauche = new Dimension(LARGEUR_PANNEAU_GAUCHE, 0);
 
-    private Partie partie = Partie.getInstance();
+    private Partie partie;
     
     private PanelDeLabels derniersCoupsHumain;
     private PanelDeLabels derniersCoupsAI;
@@ -59,6 +61,8 @@ public class Gui implements Observer{
 
     //constructeur
     public Gui() {
+        partie = Partie.getInstance();
+        partie.setParent(this);
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 JFrame frame = new JFrame("Bataille Navale");
@@ -154,6 +158,11 @@ public class Gui implements Observer{
             @Override
             public void actionPerformed(ActionEvent e) {
                 partie.setEtape(Etape.PLACER_PORTE_AVION);
+                boutonsGauche[1].setEnabled(false);
+                boutonsGauche[2].setEnabled(false);
+                boutonsGauche[3].setEnabled(false);
+                boutonsGauche[4].setEnabled(false);
+                partie.getAi().grille.bloquerGrille();
                 
             }
         });
@@ -164,6 +173,11 @@ public class Gui implements Observer{
             @Override
             public void actionPerformed(ActionEvent e) {
                 partie.setEtape(Etape.PLACER_CROISEUR);
+                boutonsGauche[0].setEnabled(false);
+                boutonsGauche[2].setEnabled(false);
+                boutonsGauche[3].setEnabled(false);
+                boutonsGauche[4].setEnabled(false);
+                partie.getAi().grille.bloquerGrille();
             }
         });
 
@@ -173,6 +187,11 @@ public class Gui implements Observer{
             @Override
             public void actionPerformed(ActionEvent e) {
                 partie.setEtape(Etape.PLACER_CONTRE_T);
+                boutonsGauche[0].setEnabled(false);
+                boutonsGauche[1].setEnabled(false);
+                boutonsGauche[3].setEnabled(false);
+                boutonsGauche[4].setEnabled(false);
+                partie.getAi().grille.bloquerGrille();
             }
         });
 
@@ -182,6 +201,11 @@ public class Gui implements Observer{
             @Override
             public void actionPerformed(ActionEvent e) {
                 partie.setEtape(Etape.PLACER_SOUS_MARIN);
+                boutonsGauche[0].setEnabled(false);
+                boutonsGauche[1].setEnabled(false);
+                boutonsGauche[2].setEnabled(false);
+                boutonsGauche[4].setEnabled(false);
+                partie.getAi().grille.bloquerGrille();
             }
         });
 
@@ -191,6 +215,11 @@ public class Gui implements Observer{
             @Override
             public void actionPerformed(ActionEvent e) {
                 partie.setEtape(Etape.PLACER_TORPILLEUR);
+                boutonsGauche[0].setEnabled(false);
+                boutonsGauche[1].setEnabled(false);
+                boutonsGauche[2].setEnabled(false);
+                boutonsGauche[3].setEnabled(false);
+                partie.getAi().grille.bloquerGrille();
             }
         });
 
@@ -229,6 +258,157 @@ public class Gui implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EUpdate update;
+        if(arg.toString().equals(EUpdate.SUCCES.toString()))
+        {
+            update = EUpdate.SUCCES;
+        }
+        else if (arg.toString().equals(EUpdate.ECHEC.toString()))
+        {
+            update = EUpdate.ECHEC;
+        }
+        modifierEtatBoutons(Util.cast(arg));
+    }
+    
+    public void updateObserver(Object o, EUpdate update){
+        
+        modifierEtatBoutons(update);
+    }
+    
+    public void modifierEtatBoutons(EUpdate Update){
+        int i = 0;
+        partie.getAi().grille.debloquerGrille();
+        switch(Partie.getInstance().getEtape())
+        {
+            case PLACER_PORTE_AVION:
+                if (Update == EUpdate.SUCCES) {
+                    boutonsGauche[0].setEnabled(false);
+                    boutonsActive[0] = false;
+                    i = 0;
+                    for(JButton bouton : boutonsGauche){
+                        if(boutonsActive[i]){
+                            bouton.setEnabled(true);
+                        }
+                        i++;
+                    }
+                } 
+                else{
+                    i = 0;
+                    for(JButton bouton : boutonsGauche){
+                        if(boutonsActive[i]){
+                            bouton.setEnabled(true);
+                        }
+                        i++;
+                    }
+                }
+                break;
+            case PLACER_CROISEUR:
+                if (Update == EUpdate.SUCCES) {
+                    boutonsGauche[1].setEnabled(false);
+                    boutonsActive[1] = false;
+                    i = 0;
+                    for(JButton bouton : boutonsGauche){
+                        if(boutonsActive[i]){
+                            bouton.setEnabled(true);
+                        }
+                        i++;
+                    }
+                } 
+                else{
+                    i = 0;
+                    for(JButton bouton : boutonsGauche){
+                        if(boutonsActive[i]){
+                            bouton.setEnabled(true);
+                        }
+                        i++;
+                    }
+                }
+                break;
+            case PLACER_CONTRE_T:
+                if (Update == EUpdate.SUCCES) {
+                    boutonsGauche[2].setEnabled(false);
+                    boutonsActive[2] = false;
+                    i = 0;
+                    for(JButton bouton : boutonsGauche){
+                        if(boutonsActive[i]){
+                            bouton.setEnabled(true);
+                        }
+                        i++;
+                    }
+                } 
+                else{
+                    i = 0;
+                    for(JButton bouton : boutonsGauche){
+                        if(boutonsActive[i]){
+                            bouton.setEnabled(true);
+                        }
+                        i++;
+                    }
+                }
+                break;
+            case PLACER_SOUS_MARIN:
+                if (Update == EUpdate.SUCCES) {
+                    boutonsGauche[3].setEnabled(false);
+                    boutonsActive[3] = false;
+                    i = 0;
+                    for(JButton bouton : boutonsGauche){
+                        if(boutonsActive[i]){
+                            bouton.setEnabled(true);
+                        }
+                        i++;
+                    }
+                } 
+                else{
+                    i = 0;
+                    for(JButton bouton : boutonsGauche){
+                        if(boutonsActive[i]){
+                            bouton.setEnabled(true);
+                        }
+                        i++;
+                    }
+                }
+                break;
+            case PLACER_TORPILLEUR:
+                if (Update == EUpdate.SUCCES) {
+                    boutonsGauche[4].setEnabled(false);
+                    boutonsActive[4] = false;
+                    i = 0;
+                    for(JButton bouton : boutonsGauche){
+                        if(boutonsActive[i]){
+                            bouton.setEnabled(true);
+                        }
+                        i++;
+                    }
+                } 
+                else{
+                    i = 0;
+                    for(JButton bouton : boutonsGauche){
+                        if(boutonsActive[i]){
+                            bouton.setEnabled(true);
+                        }
+                        i++;
+                    }
+                }
+                break;}
+        attaqueSiBateauPlaces();
+    }
+    
+    public void reinitialiserBoutons (){
+        int i = 0;
+        for (JButton bouton : boutonsGauche) {
+            bouton.setEnabled(true);
+            boutonsActive[i] = true;
+            i++;
+        }
+    }
+
+    private void attaqueSiBateauPlaces() {
+        for(int i = 0; i < 5 ; i++){
+            if(boutonsGauche[i].isEnabled())
+                return;
+        }
+        partie.setEtape(Etape.ATTAQUER);
     }
 }
+    
+            

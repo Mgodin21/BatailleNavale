@@ -16,6 +16,7 @@ public abstract class AJoueur implements IJoueur{
     //constructeur
     public AJoueur (GrilleJeu grille){
         this.grille = grille;
+        this.listeNavires = new ArrayList();
     }
 
     //accesseurs
