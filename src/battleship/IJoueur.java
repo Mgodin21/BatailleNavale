@@ -6,4 +6,5 @@ package battleship;
 public interface IJoueur {
     void tire(IJoueur cible);
     void recoitTire(Position position);
+    void ajouterNavire(Navire navire);
 }

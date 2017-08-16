@@ -13,16 +13,16 @@ import javafx.beans.InvalidationListener;
 /**
  * Panneau qui contient une grille de jeu (grille de boutons)
  */
-public class GrilleJeu extends JPanel implements Observable{
+public class GrilleJeu extends JPanel implements Observable {
 
     //position du dernier clic sur la grille
     public static Position posDernierClic;
 
     private ArrayList<Observer> observateurs;
-    
+
     //un bouton a été cliqué, true lors d'un clic, false quand position reçue
     public static boolean boutonEstClique;
-    
+
     public Position debut;
 
     private BoutonCustom[][] grilleBoutons;
@@ -31,7 +31,7 @@ public class GrilleJeu extends JPanel implements Observable{
     private static final char[] LETTRES_X = {' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
 
     //constructeur
-    public GrilleJeu(int taille){
+    public GrilleJeu(int taille) {
         /*
          * Stratégie: pour chaque position dans la grille, crée un bouton
          * contenant la position de celui-ci. S'il s'agit de la première
@@ -60,11 +60,11 @@ public class GrilleJeu extends JPanel implements Observable{
         grilleBoutons[0][0].setEnabled(false);
     }
 
-    public void changerTexteBouton(Position position, String texte){
+    public void changerTexteBouton(Position position, String texte) {
         grilleBoutons[position.getPosY()][changerLettreEnInt(position.getPosX())].setText(texte);
     }
-    
-    public String getTexteBouton(Position position){
+
+    public String getTexteBouton(Position position) {
         return grilleBoutons[position.getPosY()][changerLettreEnInt(position.getPosX())].getText();
     }
 
@@ -101,7 +101,7 @@ public class GrilleJeu extends JPanel implements Observable{
      *
      * @return position du dernier bouton cliqué
      */
-    public Position getPosDernierClic(){
+    public Position getPosDernierClic() {
         return posDernierClic;
     }
 
@@ -109,9 +109,9 @@ public class GrilleJeu extends JPanel implements Observable{
      * efface les valeurs de le grille de jeu (sauf les identifiants des lignes
      * et colonnes
      */
-    public void reinitialiser(){
-        for (int i =1; i<grilleBoutons.length; i++){
-            for (int j =1; j<grilleBoutons.length; j++){
+    public void reinitialiser() {
+        for (int i = 1; i < grilleBoutons.length; i++) {
+            for (int j = 1; j < grilleBoutons.length; j++) {
                 grilleBoutons[i][j].setText("");
                 grilleBoutons[i][j].position.setTouché(false);
             }
@@ -123,9 +123,9 @@ public class GrilleJeu extends JPanel implements Observable{
      *
      * @param etat true pour activer, false pour désactiver
      */
-    public void estActive(boolean etat){
-        for (int i =1; i<grilleBoutons.length; i++){
-            for (int j =1; j<grilleBoutons.length; j++){
+    public void estActive(boolean etat) {
+        for (int i = 1; i < grilleBoutons.length; i++) {
+            for (int j = 1; j < grilleBoutons.length; j++) {
                 grilleBoutons[i][j].setEnabled(etat);
             }
         }
@@ -162,63 +162,55 @@ public class GrilleJeu extends JPanel implements Observable{
                     //retient la position du bouton cliqué
                     posDernierClic = btn.position;
                     boutonEstClique = true;
-                    switch (Partie.getInstance().getEtape()){
-                        case PLACER_PORTE_AVION:
-                            if(debut == null)
-                                debut = posDernierClic;
-                            else{
-                                if(Navire.positionsSontValide(debut, posDernierClic, Navire.LONGUEUR_PORTE_AVION)){
-                                        Partie.getInstance().placerNavireHumain(debut, posDernierClic);  
+                    if (debut == null) {
+                        debut = posDernierClic;
+                    } else {
+                        switch (Partie.getInstance().getEtape()) {
+                            case PLACER_PORTE_AVION:
+
+                                if (Navire.positionsSontValides(debut, posDernierClic, Navire.LONGUEUR_PORTE_AVION)) {
+                                    Partie.getInstance().placerNavireHumain(debut, posDernierClic, Navire.LONGUEUR_PORTE_AVION);
+                                    debut = null;
                                 }
-                                debut = null;
-                            }
-                            break;
-                            
+                                break;
+
                             case PLACER_CONTRE_T:
-                            if(debut == null)
-                                debut = posDernierClic;
-                            else{
-                                if(Navire.positionsSontValide(debut, posDernierClic, Navire.LONGUEUR_CONTRE_T)){
-                                        Partie.getInstance().placerNavireHumain(debut, posDernierClic);  
+                                if (Navire.positionsSontValides(debut, posDernierClic, Navire.LONGUEUR_CONTRE_T)) {
+                                    Partie.getInstance().placerNavireHumain(debut, posDernierClic, Navire.LONGUEUR_CONTRE_T);
                                 }
-                            
+
                                 debut = null;
-                            }
-                            break;
-                            
+
+                                break;
+
                             case PLACER_CROISEUR:
-                            if(debut == null)
-                                debut = posDernierClic;
-                            else{
-                                if(Navire.positionsSontValide(debut, posDernierClic, Navire.LONGUEUR_CROISEUR)){
-                                        Partie.getInstance().placerNavireHumain(debut, posDernierClic);  
-                                
+
+                                if (Navire.positionsSontValides(debut, posDernierClic, Navire.LONGUEUR_CROISEUR)) {
+                                    Partie.getInstance().placerNavireHumain(debut, posDernierClic, Navire.LONGUEUR_CROISEUR);
+
                                 }
                                 debut = null;
-                            }
-                            break;
-                            
+
+                                break;
+
                             case PLACER_SOUS_MARIN:
-                            if(debut == null)
-                                debut = posDernierClic;
-                            else{
-                                if(Navire.positionsSontValide(debut, posDernierClic, Navire.LONGUEUR_SOUS_MARIN)){
-                                        Partie.getInstance().placerNavireHumain(debut, posDernierClic);  
+
+                                if (Navire.positionsSontValides(debut, posDernierClic, Navire.LONGUEUR_SOUS_MARIN)) {
+                                    Partie.getInstance().placerNavireHumain(debut, posDernierClic, Navire.LONGUEUR_SOUS_MARIN);
                                 }
                                 debut = null;
-                            }
-                            break;
-                            
+
+                                break;
+
                             case PLACER_TORPILLEUR:
-                            if(debut == null)
-                                debut = posDernierClic;
-                            else{
-                                if(Navire.positionsSontValide(debut, posDernierClic, Navire.LONGUEUR_TORPILLEUR)){
-                                        Partie.getInstance().placerNavireHumain(debut, posDernierClic);  
+
+                                if (Navire.positionsSontValides(debut, posDernierClic, Navire.LONGUEUR_TORPILLEUR)) {
+                                    Partie.getInstance().placerNavireHumain(debut, posDernierClic, Navire.LONGUEUR_TORPILLEUR);
                                 }
                                 debut = null;
-                            }
-                            break;
+
+                                break;
+                        }
                     }
                 }
             });

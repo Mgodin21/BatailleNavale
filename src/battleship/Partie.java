@@ -5,6 +5,7 @@
  */
 package battleship;
 
+import java.util.LinkedList;
 import java.util.Observer;
 
 /**
@@ -61,26 +62,31 @@ public final class Partie {
         this.ai = ai;
     }
 
-    public void placerNavireHumain(Position depart, Position fin) {
+    public void placerNavireHumain(Position depart, Position fin, int longueur) {
+        LinkedList<Position> positions = new LinkedList();
         if (peutPlacerNavire(depart, fin)) {
             if (depart.getPosX() != fin.getPosX() && depart.getPosY() == fin.getPosY()) {
                 if (depart.getPosX() < fin.getPosX()) {
                     for (int i = GrilleJeu.changerLettreEnInt(depart.getPosX()); i <= GrilleJeu.changerLettreEnInt(fin.getPosX()); i++) {
                         joueur.getGrille().changerTexteBouton(new Position(GrilleJeu.changerIntEnLettre(i), depart.getPosY()), NAVIRE);
+                        positions.add(new Position(GrilleJeu.changerIntEnLettre(i), depart.getPosY()));
                     }
                 } else {
                     for (int i = GrilleJeu.changerLettreEnInt(depart.getPosX()); i >= GrilleJeu.changerLettreEnInt(fin.getPosX()); i--) {
                         joueur.getGrille().changerTexteBouton(new Position(GrilleJeu.changerIntEnLettre(i), depart.getPosY()), NAVIRE);
+                        positions.add(new Position(GrilleJeu.changerIntEnLettre(i), depart.getPosY()));
                     }
                 }
             } else if (depart.getPosY() != fin.getPosY() && depart.getPosX() == fin.getPosX()) {
                 if (depart.getPosY() < fin.getPosY()) {
                     for (int i = depart.getPosY(); i <= fin.getPosY(); i++) {
                         joueur.getGrille().changerTexteBouton(new Position(depart.getPosX(), i), NAVIRE);
+                        positions.add(new Position(depart.getPosX(), i));
                     }
                 } else {
                     for (int i = depart.getPosY(); i >= fin.getPosY(); i--) {
                         joueur.getGrille().changerTexteBouton(new Position(depart.getPosX(), i), NAVIRE);
+                        positions.add(new Position(depart.getPosX(), i));
                     }
                 }
             }

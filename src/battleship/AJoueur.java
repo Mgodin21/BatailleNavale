@@ -68,4 +68,8 @@ public abstract class AJoueur implements IJoueur{
      */
     public void recoitTire(Position cible){
     }
+    
+    public void ajouterNavire(Navire navire){
+        listeNavires.add(navire);
+    }
 }
